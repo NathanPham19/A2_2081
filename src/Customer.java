@@ -1,6 +1,7 @@
 import java.io.*;
+import java.util.Random;
 import java.util.Scanner;
-import java.util.UUID;
+
 
 public class Customer {
     private String username;
@@ -8,6 +9,17 @@ public class Customer {
     private String phone;
     private String email;
     private String address;
+
+    private static String employeeID = "0";
+
+    //Generate Unique Customer ID number
+    public static String getNextUniqueID() {
+        int id = Integer.parseInt(employeeID);
+        Random rand = new Random();
+        id = rand.nextInt((99999 - 10000) + 1) + 10000;
+        return Integer.toString(id);
+
+    }
 
     //Constructor without param
     public Customer() {
@@ -20,7 +32,9 @@ public class Customer {
         this.phone = phone;
         this.email = email;
         this.address = address;
+
     }
+
 
 
     //List all the things the users can do
@@ -102,7 +116,7 @@ public class Customer {
         System.out.print("Home address: ");
         String address = scan.nextLine();
 
-        UUID uniqueKey = UUID.randomUUID();
+        String Unique_CustomerID = "C";
 
         // If clause to ensure that the user filled out all info
         if (username.isEmpty() || password.isEmpty() || phone.isEmpty()
@@ -113,9 +127,11 @@ public class Customer {
             }
 
         else {
+
+
             // run PrintWriter method to create new account into a text file;
             PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Customer_Info.txt"),true));
-            pw.println(username + " " + password + " " + email + " " + phone + " " + address + " Member " + uniqueKey);
+            pw.println(username + "," + password + "," + email + "," + phone + "," + address + ",Member,C"+ getNextUniqueID() );
             pw.flush();
             pw.close();
 
@@ -140,13 +156,12 @@ public class Customer {
         String line = "";
 
         while ((line = br.readLine()) != null){
-            if (line.startsWith(User + " ")){
+            if (line.startsWith(User + ",")){
                 System.out.println("user | pass | email |  phone |  address | Membership | CustomerID");
                 System.out.println(line);
                 break;
             }
         }
-
     }
 
 
@@ -216,4 +231,7 @@ public class Customer {
     public void setAddress(String address) {
         this.address = address;
     }
+
+
+
 }

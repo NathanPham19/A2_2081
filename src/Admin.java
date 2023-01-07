@@ -14,6 +14,10 @@ public class Admin {
 
     }
 
+    public void viewCustomer_Info(){
+
+    }
+
     public void login() throws FileNotFoundException {
         Scanner FileScan = new Scanner(new File("Member_Login_Info.txt"));
         Scanner scan = new Scanner(System.in);
