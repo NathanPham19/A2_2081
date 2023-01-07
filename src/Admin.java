@@ -1,5 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Admin {
@@ -14,8 +13,19 @@ public class Admin {
 
     }
 
-    public void viewCustomer_Info(){
+    public void viewCustomer_Info(String Customer_Username) throws IOException {
+        File originalFile = new File("Customer_Info.txt");
+        BufferedReader br = new BufferedReader(new FileReader(originalFile));
+        StringBuilder sb = new StringBuilder();
+        String line = "";
 
+        while ((line = br.readLine()) != null){
+            if (line.startsWith( Customer_Username + ",")){
+                System.out.println("user | pass | email |  phone |  address | Membership | CustomerID");
+                System.out.println(line);
+                break;
+            }
+        }
     }
 
     public void login() throws FileNotFoundException {
