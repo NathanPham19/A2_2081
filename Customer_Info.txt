@@ -1,3 +1,5 @@
+username,password,email,phone,address,membership,customerID
+
 66,33,11,22,33,Member,C1
 77,44,11,22,33,Member,C1
 88,22,33,11,22,Member,C2
