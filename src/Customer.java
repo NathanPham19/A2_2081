@@ -131,7 +131,7 @@ public class Customer {
 
             // run PrintWriter method to create new account into a text file;
             PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Customer_Info.txt"),true));
-            pw.println(username + "," + password + "," + email + "," + phone + "," + address + ",Member,C"+ getNextUniqueID() );
+            pw.println(username + "," + password + "," + email + "," + phone + "," + address + ",C"+ getNextUniqueID() + ",member,");
             pw.flush();
             pw.close();
 
@@ -157,7 +157,7 @@ public class Customer {
 
         while ((line = br.readLine()) != null){
             if (line.startsWith(User + ",")){
-                System.out.println("user | pass | email |  phone |  address | Membership | CustomerID");
+                System.out.println("user | pass | email | phone | address | CustomerID | Membership | Amount Spent");
                 System.out.println(line);
                 break;
             }

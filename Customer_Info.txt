@@ -1,4 +1,4 @@
-username,password,email,phone,address,membership,customerID
+username,password,email,phone,address,customerID,membership,amount_spent
 
 66,33,11,22,33,Member,C1
 77,44,11,22,33,Member,C1
