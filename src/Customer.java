@@ -1,11 +1,17 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 
 public class Customer {
+    private static final String CUSTOMER_FILE = "Customer_Info.txt";
+    private static final String DELIMITER = ",";
+
     private String username;
     private String password;
+    private String full_name;
     private String phone;
     private String email;
     private String address;
@@ -26,12 +32,14 @@ public class Customer {
 
     }
     // Normal Constructor
-    public Customer(String username, String password, String phone, String email, String address) {
+    public Customer(String username, String password, String full_name,String phone, String email, String address) {
         this.username = username;
         this.password = password;
+        this.full_name = full_name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+
 
     }
 
@@ -55,6 +63,8 @@ public class Customer {
         switch(option){
             case 1:
                 viewInfo(getUsername());
+            case 2:
+                updateInfo(getUsername(),getPassword());
 
         }
     }
@@ -71,18 +81,18 @@ public class Customer {
         String username = scan.nextLine();
         System.out.println("Password: ");
         String password = scan.nextLine();
-
         while (FileScan.hasNextLine()){
             String input = FileScan.nextLine();
             String user = input.substring(0, input.indexOf(' '));
             String pass = input.substring(input.indexOf(' ')+1 , input.length());
 
 
-            if( user.equals(username) && (pass.equals(password)) ){
+            if(user.equals(username) && (pass.equals(password)) ){
                 foundUser = true;
                 this.username = username;
                 this.password = password;
                 CustomerAction();
+                break;
             }
         }
 
@@ -90,6 +100,7 @@ public class Customer {
             System.out.println("Wrong username or password! Re-enter your info!");
             login();
         }
+
     }
 
 
@@ -106,6 +117,9 @@ public class Customer {
 
         System.out.println("Password: ");
         String password = scan.nextLine();
+
+        System.out.println("Your full name:");
+        String full_name = scan.nextLine();
 
         System.out.print("Email address: ");
         String email = scan.nextLine();
@@ -131,7 +145,7 @@ public class Customer {
 
             // run PrintWriter method to create new account into a text file;
             PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Customer_Info.txt"),true));
-            pw.println(username + "," + password + "," + email + "," + phone + "," + address + ",C"+ getNextUniqueID() + ",member,");
+            pw.println(username + "," + password + "," + full_name + ","  + email + "," + phone + "," + address + ",C"+ getNextUniqueID() + ",member,");
             pw.flush();
             pw.close();
 
@@ -157,7 +171,7 @@ public class Customer {
 
         while ((line = br.readLine()) != null){
             if (line.startsWith(User + ",")){
-                System.out.println("user | pass | email | phone | address | CustomerID | Membership | Amount Spent");
+                System.out.println("user | pass | full name | email | phone | address | CustomerID | Membership | Amount Spent");
                 System.out.println(line);
                 break;
             }
@@ -166,25 +180,100 @@ public class Customer {
 
 
     // Update User info by matching the username and then let the user decide what to change
-    public void updateInfo() throws IOException {
-        File originalFile = new File("Customer_Info.txt");
-        BufferedReader br = new BufferedReader(new FileReader(originalFile));
 
-        // New temp file that will replace the original file
-        File tempFile = new File("Customer_Info_Temp.txt");
-        PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
+    public void updateInfo(String username, String password) throws IOException {
+        String CUSTOMER_FILE = "Customer_Info.txt";
+        String DELIMITER = ",";
 
-        String line = null;
-        // Read OG file and write to new temp file
-        // unless content matches data to be removed and replaced
+        Scanner scanner = new Scanner(System.in);
 
-        while ((line = br.readLine()) != null){
-            if (line.contains(username)){
-                String strCurrentValue;
+        // Read the list of customers from the file
+        List<Customer> customers = readCustomersFromFile();
+
+        // Find the customer with the given username and password
+        Customer customer = null;
+        for (Customer c : customers) {
+            if (c.username.equals(username) && c.password.equals(password)) {
+                customer = c;
+                break;
             }
         }
 
+        // If the customer was not found, display an error message
+        if (customer == null) {
+            System.out.println("Invalid username or password.");
+            return;
+        }
 
+        // Edit the customer information
+        System.out.print("Enter new password (blank to keep current value): ");
+        password = scanner.nextLine().trim();
+        if (!password.isEmpty()) {
+            customer.password = password;
+        }
+        System.out.print("Enter new full name (blank to keep current value): ");
+        String fullName = scanner.nextLine().trim();
+        if (!fullName.isEmpty()) {
+            customer.full_name = fullName;
+        }
+        System.out.print("Enter new phone number (blank to keep current value): ");
+        String phoneNumber = scanner.nextLine().trim();
+        if (!phoneNumber.isEmpty()) {
+            customer.phone = phoneNumber;
+        }
+        System.out.print("Enter new email (blank to keep current value): ");
+        String email = scanner.nextLine().trim();
+        if (!email.isEmpty()) {
+            customer.email = email;
+        }
+        System.out.print("Enter new address (blank to keep current value): ");
+        String address = scanner.nextLine().trim();
+        if (!address.isEmpty()) {
+            customer.address = address;
+        }
+
+        // Write the updated list of customers to the file
+        writeCustomersToFile(customers);
+
+        scanner.close();
+    }
+
+
+
+    private List<Customer> readCustomersFromFile() {
+        List<Customer> customers = new ArrayList<>();
+        File file = new File(CUSTOMER_FILE);
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(DELIMITER);
+                    Customer customer = new Customer();
+                    customer.username = parts[0];
+                    customer.password = parts[1];
+                    customer.full_name = parts[2];
+                    customer.phone = parts[3];
+                    customer.email = parts[4];
+                    customer.address = parts[5];
+                    customers.add(customer);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return customers;
+    }
+
+    private static void writeCustomersToFile(List<Customer> customers) {
+        File file = new File(CUSTOMER_FILE);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            for (Customer customer : customers) {
+                writer.write(customer.username + DELIMITER + customer.password + DELIMITER + customer.full_name + DELIMITER + customer.phone + DELIMITER + customer.email + DELIMITER + customer.address);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //View Membership status

@@ -4,7 +4,15 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        System.out.println("COSC2081 GROUP ASSIGNMENT");
+        System.out.println("STORE ORDER MANAGEMENT SYSTEM");
+        System.out.println("Group: Random 3");
+        System.out.println("s3940676, Pham Quang Huy");
+        System.out.println("s3929015, Bui Minh Khoi");
+        System.out.println("s3878734, Tran Vinh Tuong\n");
         Scanner scan = new Scanner(System.in);
+
+        System.out.println("Welcome");
         System.out.println("Are you an customer or admin?");
         System.out.println("1. Admin");
         System.out.println("2. Customer");
