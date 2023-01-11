@@ -1,3 +1,5 @@
+
+import javax.sound.sampled.Line;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -240,9 +242,183 @@ public class Customer {
         scanner.close();
     }
 
-    public void updateInfo_2(String LineToDelete, String User) throws IOException {
+    public String update_String_file(String User) throws IOException {
+        //Extract the Line and Ask the User which line to edit
+        Scanner scan = new Scanner(System.in);
 
-        //Delete the file
+        //Extract the line the program want to edit
+        File originalFile = new File("Customer_Info.txt");
+        BufferedReader br = new BufferedReader(new FileReader(originalFile));
+        StringBuilder sb = new StringBuilder();
+        String line = "";
+        String changed_acc="";
+        String new_credentials = "";
+        String LineToDelete = "";
+
+
+        while ((line = br.readLine()) != null){
+            if (line.startsWith(User + ",")){
+                String result = line;
+                LineToDelete = line;
+                System.out.println("Membership tier:");
+                String[] parts = result.split(",");
+                String user = parts[0];
+                String pass = parts[1];
+                String full_name = parts[2];
+                String email = parts[3];
+                String phone = parts[4];
+                String address = parts[5];
+                String cID = parts[6];
+                String membership = parts[7];
+                String amount_spent = parts[8];
+
+
+                System.out.println("Do you want to change password (blank to keep old value | Y to change new pass): ");
+                String ans = scan.nextLine();
+                if (!ans.isEmpty()){
+                    System.out.println("Enter your new password");
+                    pass = scan.nextLine();
+                }
+
+                System.out.println("Do you want to change full name (blank to keep old value | Y to change new pass): ");
+                String ans1 = scan.nextLine();
+                if (!ans1.isEmpty()){
+                    System.out.println("Enter your new full name");
+                    full_name = scan.nextLine();
+                }
+
+                System.out.println("Do you want to change email address (blank to keep old value | Y to change new pass): ");
+                String ans2 = scan.nextLine();
+                if (!ans2.isEmpty()){
+                    System.out.println("Enter your new email address");
+                    email = scan.nextLine();
+                }
+
+                System.out.println("Do you want to change phone number (blank to keep old value | Y to change new pass): ");
+                String ans3 = scan.nextLine();
+                if (!ans3.isEmpty()){
+                    System.out.println("Enter your new phone number");
+                    phone = scan.nextLine();
+                }
+
+                System.out.println("Do you want to change home address (blank to keep old value | Y to change new pass): ");
+                String ans4 = scan.nextLine();
+                if (!ans4.isEmpty()){
+                    System.out.println("Enter your new phone number");
+                    address = scan.nextLine();
+                }
+
+                new_credentials = user +","+pass;
+                changed_acc = user +","+pass+","+full_name+","+email+","+phone+","+address+","+cID+","+membership+","+amount_spent;
+                System.out.println("Previous Info: "+ LineToDelete);
+                System.out.println("Here's your updated information:");
+                System.out.println("user | pass | full name | email | phone | address | CustomerID | Membership | Amount Spent");
+                System.out.println(changed_acc);
+            }
+        }
+        return new_credentials;
+    }
+
+    public void UpdateInfoCustomer(String User) throws IOException {
+        // Extract and Update the String
+        //Extract the Line and Ask the User which line to edit
+        Scanner scan = new Scanner(System.in);
+
+        //Extract the line the program want to edit
+        File originalFile = new File("Customer_Info.txt");
+        BufferedReader br = new BufferedReader(new FileReader(originalFile));
+        StringBuilder sb = new StringBuilder();
+        String line = "";
+        String changed_acc="";
+        String new_credentials = "";
+        String LineToDelete = "";
+
+
+        while ((line = br.readLine()) != null){
+            if (line.startsWith(User + ",")){
+                String result = line;
+                LineToDelete = line;
+                System.out.println("Membership tier:");
+                String[] parts = result.split(",");
+                String user = parts[0];
+                String pass = parts[1];
+                String full_name = parts[2];
+                String email = parts[3];
+                String phone = parts[4];
+                String address = parts[5];
+                String cID = parts[6];
+                String membership = parts[7];
+                String amount_spent = parts[8];
+
+
+                System.out.println("Do you want to change password (blank to keep old value | Y to change new pass): ");
+                String ans = scan.nextLine();
+                if (!ans.isEmpty()){
+                    System.out.println("Enter your new password");
+                    pass = scan.nextLine();
+                }
+
+                System.out.println("Do you want to change full name (blank to keep old value | Y to change new pass): ");
+                String ans1 = scan.nextLine();
+                if (!ans1.isEmpty()){
+                    System.out.println("Enter your new full name");
+                    full_name = scan.nextLine();
+                }
+
+                System.out.println("Do you want to change email address (blank to keep old value | Y to change new pass): ");
+                String ans2 = scan.nextLine();
+                if (!ans2.isEmpty()){
+                    System.out.println("Enter your new email address");
+                    email = scan.nextLine();
+                }
+
+                System.out.println("Do you want to change phone number (blank to keep old value | Y to change new pass): ");
+                String ans3 = scan.nextLine();
+                if (!ans3.isEmpty()){
+                    System.out.println("Enter your new phone number");
+                    phone = scan.nextLine();
+                }
+
+                System.out.println("Do you want to change home address (blank to keep old value | Y to change new pass): ");
+                String ans4 = scan.nextLine();
+                if (!ans4.isEmpty()){
+                    System.out.println("Enter your new phone number");
+                    address = scan.nextLine();
+                }
+
+                new_credentials = user +","+pass;
+                changed_acc = user +","+pass+","+full_name+","+email+","+phone+","+address+","+cID+","+membership+","+amount_spent;
+                System.out.println("Previous Info: "+ LineToDelete);
+                System.out.println("Here's your updated information:");
+                System.out.println("user | pass | full name | email | phone | address | CustomerID | Membership | Amount Spent");
+                System.out.println(changed_acc);
+            }
+        }
+
+        //Create new temp file with all the content but deleted line. Then delete the Original file. Rename temp file to Original file name
+        deleteLine(LineToDelete);
+
+        //Write the new credentials to the Original file
+        PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Customer_Info.txt"),true));
+        pw.println(changed_acc);
+        pw.flush();
+        pw.close();
+
+        PrintWriter pw1 = new PrintWriter(new FileOutputStream(new File("Member_Login_Info.txt"),true));
+        pw1.println(new_credentials);
+        pw1.flush();
+        pw1.close();
+
+
+    }
+
+    //Function to find and delete a record to edit a new one in.
+    //Bug: The problem do create a new file without the "Line that needs to be deleted"
+    //     but it does not delete the Original File. So the new User Info is added on top of the old one
+
+    public void deleteLine(String LineToDelete) throws IOException {
+
+
         File inputFile = new File("Customer_Info.txt");
         File tempFile = new File("temp_file.txt");
 
@@ -267,74 +443,6 @@ public class Customer {
         tempFile.renameTo(inputFile);
     }
 
-    public void updateInfo_3(String User) throws IOException {
-        Scanner scan = new Scanner(System.in);
-
-        //Extract the line the program want to edit
-        File originalFile = new File("Customer_Info.txt");
-        BufferedReader br = new BufferedReader(new FileReader(originalFile));
-        StringBuilder sb = new StringBuilder();
-        String line = "";
-
-        while ((line = br.readLine()) != null){
-            if (line.startsWith(User + ",")){
-                String result = line;
-                System.out.println("Membership tier:");
-                String[] parts = result.split(",");
-                String user = parts[0];
-                String pass = parts[1];
-                String full_name = parts[2];
-                String email = parts[3];
-                String phone = parts[4];
-                String address = parts[5];
-                String cID = parts[6];
-                String membership = parts[7];
-                String amount_spent = parts[8];
-
-
-                System.out.println("Do you want to change password (blank to keep old value | Y to change new pass): ");
-                String ans = scan.nextLine();
-                if (!ans.isEmpty()){
-                    System.out.println("Enter your new password");
-                    pass = scan.nextLine();
-                }
-
-                System.out.println("Do you want to change password (blank to keep old value | Y to change new pass): ");
-                String ans1 = scan.nextLine();
-                if (!ans1.isEmpty()){
-                    System.out.println("Enter your new full name");
-                    full_name = scan.nextLine();
-                }
-
-                System.out.println("Do you want to change password (blank to keep old value | Y to change new pass): ");
-                String ans2 = scan.nextLine();
-                if (!ans2.isEmpty()){
-                    System.out.println("Enter your new email address");
-                    email = scan.nextLine();
-                }
-
-                System.out.println("Do you want to change password (blank to keep old value | Y to change new pass): ");
-                String ans3 = scan.nextLine();
-                if (!ans3.isEmpty()){
-                    System.out.println("Enter your new phone number");
-                    phone = scan.nextLine();
-                }
-
-                System.out.println("Do you want to change password (blank to keep old value | Y to change new pass): ");
-                String ans4 = scan.nextLine();
-                if (!ans4.isEmpty()){
-                    System.out.println("Enter your new phone number");
-                    address = scan.nextLine();
-                }
-
-
-
-                System.out.println(user+","+pass+","+full_name+","+email+","+phone+","+address+","+cID+","+membership+","+amount_spent);
-
-
-            }
-        }
-    }
 
 
 
@@ -389,7 +497,7 @@ public class Customer {
                 String[] parts = result.split(",");
                     String user = parts[0];
                     String pass = parts[1];
-                    String full_name = parts [2];
+                    String full_name = parts[2];
                     String email = parts[3];
                     String phone = parts[4];
                     String address = parts[5];
