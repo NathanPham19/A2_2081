@@ -145,7 +145,7 @@ public class Customer {
 
             // run PrintWriter method to create new account into a text file;
             PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Customer_Info.txt"),true));
-            pw.println(username + "," + password + "," + full_name + ","  + email + "," + phone + "," + address + ",C"+ getNextUniqueID() + ",member,");
+            pw.println(username + "," + password + "," + full_name + ","  + email + "," + phone + "," + address + ",C"+ getNextUniqueID() + ",member,0");
             pw.flush();
             pw.close();
 
@@ -177,6 +177,8 @@ public class Customer {
             }
         }
     }
+
+
 
 
     // Update User info by matching the username and then let the user decide what to change
@@ -237,6 +239,103 @@ public class Customer {
 
         scanner.close();
     }
+
+    public void updateInfo_2(String LineToDelete, String User) throws IOException {
+
+        //Delete the file
+        File inputFile = new File("Customer_Info.txt");
+        File tempFile = new File("temp_file.txt");
+
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+        String currentLine;
+
+        while((currentLine = reader.readLine()) != null) {
+            // trim newline when comparing with lineToRemove
+            String trimmedLine = currentLine.trim();
+
+            if(trimmedLine.equals(LineToDelete)) continue;
+
+            writer.write(currentLine + System.getProperty("line.separator"));
+        }
+        writer.close();
+        reader.close();
+
+
+        inputFile.delete();
+        tempFile.renameTo(inputFile);
+    }
+
+    public void updateInfo_3(String User) throws IOException {
+        Scanner scan = new Scanner(System.in);
+
+        //Extract the line the program want to edit
+        File originalFile = new File("Customer_Info.txt");
+        BufferedReader br = new BufferedReader(new FileReader(originalFile));
+        StringBuilder sb = new StringBuilder();
+        String line = "";
+
+        while ((line = br.readLine()) != null){
+            if (line.startsWith(User + ",")){
+                String result = line;
+                System.out.println("Membership tier:");
+                String[] parts = result.split(",");
+                String user = parts[0];
+                String pass = parts[1];
+                String full_name = parts[2];
+                String email = parts[3];
+                String phone = parts[4];
+                String address = parts[5];
+                String cID = parts[6];
+                String membership = parts[7];
+                String amount_spent = parts[8];
+
+
+                System.out.println("Do you want to change password (blank to keep old value | Y to change new pass): ");
+                String ans = scan.nextLine();
+                if (!ans.isEmpty()){
+                    System.out.println("Enter your new password");
+                    pass = scan.nextLine();
+                }
+
+                System.out.println("Do you want to change password (blank to keep old value | Y to change new pass): ");
+                String ans1 = scan.nextLine();
+                if (!ans1.isEmpty()){
+                    System.out.println("Enter your new full name");
+                    full_name = scan.nextLine();
+                }
+
+                System.out.println("Do you want to change password (blank to keep old value | Y to change new pass): ");
+                String ans2 = scan.nextLine();
+                if (!ans2.isEmpty()){
+                    System.out.println("Enter your new email address");
+                    email = scan.nextLine();
+                }
+
+                System.out.println("Do you want to change password (blank to keep old value | Y to change new pass): ");
+                String ans3 = scan.nextLine();
+                if (!ans3.isEmpty()){
+                    System.out.println("Enter your new phone number");
+                    phone = scan.nextLine();
+                }
+
+                System.out.println("Do you want to change password (blank to keep old value | Y to change new pass): ");
+                String ans4 = scan.nextLine();
+                if (!ans4.isEmpty()){
+                    System.out.println("Enter your new phone number");
+                    address = scan.nextLine();
+                }
+
+
+
+                System.out.println(user+","+pass+","+full_name+","+email+","+phone+","+address+","+cID+","+membership+","+amount_spent);
+
+
+            }
+        }
+    }
+
 
 
 
