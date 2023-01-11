@@ -1,4 +1,4 @@
-username,password,email,phone,address,customerID,membership_tier,amount_spent
+username,password,full_name,email,phone,address,customerID,membership_tier,amount_spent
 
 66,33,11,22,33,Member,C1
 77,44,11,22,33,Member,C1
@@ -11,4 +11,4 @@ username,password,email,phone,address,customerID,membership_tier,amount_spent
 33,22,111,2232,11,Member,C0
 88,11,22,11,22,Member,C113506
 2,3,1,2,3,Member,C47902
-QuangHuy,1234,Pham Quang Huy,@gmail.com,1891,Earth,C70603,member,
+QuangHuy,1234,Pham Quang Huy,@gmail.com,1891,Earth,C70603,member

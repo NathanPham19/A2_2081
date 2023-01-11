@@ -277,9 +277,34 @@ public class Customer {
     }
 
     //View Membership status
-    public void viewMembershipStatus(){
+    public void viewMembershipStatus(String User) throws IOException {
+        File originalFile = new File("Customer_Info.txt");
+        BufferedReader br = new BufferedReader(new FileReader(originalFile));
+        StringBuilder sb = new StringBuilder();
+        String line = "";
 
+        while ((line = br.readLine()) != null){
+            if (line.startsWith(User + ",")){
+                String result = line;
+                System.out.println("Membership tier:");
+                String[] parts = result.split(",");
+                    String user = parts[0];
+                    String pass = parts[1];
+                    String full_name = parts [2];
+                    String email = parts[3];
+                    String phone = parts[4];
+                    String address = parts[5];
+                    String cID = parts[6];
+                    String membership = parts[7];
+
+                    System.out.println(user+ "| " +membership);
+
+                break;
+            }
+        }
     }
+
+
 
     public String getUsername() {
         return username;

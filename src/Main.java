@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
         System.out.println("COSC2081 GROUP ASSIGNMENT");
         System.out.println("STORE ORDER MANAGEMENT SYSTEM");
@@ -32,6 +33,7 @@ public class Main {
                     case 1:
                         Customer c1 = new Customer();
                         c1.login();
+
                     case 2:
                         Customer c2 = new Customer();
                         c2.registerUser();
@@ -39,5 +41,7 @@ public class Main {
                 }
 
         }
+
+
     }
 }
