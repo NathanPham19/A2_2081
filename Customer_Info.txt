@@ -1,4 +1,4 @@
 username,password,full_name,email,phone,address,customerID,membership_tier,amount_spent
 
-QuangHuy,1234,Pham Quang Huy,@gmail.com,1891,Earth,C70603,member,0
-ThaoPham2,9999,Elena Thao,@hotmail.com,9999,Mars,C83729,member,0
+QuangHuy,1234,Pham Quang Huy,@gmail.com,1891,Earth,70603,member,0
+ThaoPham2,9999,Elena Thao,@hotmail.com,9999,Mars,83729,member,0

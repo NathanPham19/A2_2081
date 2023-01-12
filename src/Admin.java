@@ -138,5 +138,79 @@ public class Admin {
         }
     }
 
+    public void changeStatusofOrder() throws IOException {
+        //Extract the Line and Ask the User which line to edit
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter Customer's ID number: ");
+        int id = scan.nextInt();
+        String CustomerID = Integer.toString(id);
+
+        //Extract the line the program want to edit
+        File originalFile = new File("Customer_Info.txt");
+        BufferedReader br = new BufferedReader(new FileReader(originalFile));
+        StringBuilder sb = new StringBuilder();
+        String line = "";
+        String changed_info="";
+        String LineToDelete = "";
+
+        while ((line = br.readLine()) != null) {
+            if (line.startsWith(CustomerID + ",")) {
+                String result = line;
+                LineToDelete = line;
+                String[] parts = result.split(",");
+                String customerID = parts[0];
+                String orderID = parts[1];
+                String date_ordered = parts[2];
+                String order_status = parts[3];
+
+                System.out.println("Do you want to change order Status (blank to keep old value | Y to change new pass): ");
+                String ans = scan.nextLine();
+                if (!ans.isEmpty()){
+                    order_status = "Ordered";
+                }
+
+                changed_info = customerID+","+orderID+","+date_ordered+","+order_status;
+                System.out.println("Here's your updated information:");
+                System.out.println("CustomerID | OrderID | Date Ordered | Order Status");
+                System.out.println(changed_info);
+            }
+
+
+            //Create new Temp file with updated info. Then delete the old file
+            File inputFile = new File("Order_Info.txt");
+            File tempFile = new File("temp_file_Order.txt");
+
+            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+            String currentLine;
+
+            while((currentLine = reader.readLine()) != null) {
+                // trim newline when comparing with lineToRemove
+                String trimmedLine = currentLine.trim();
+
+                if(trimmedLine.equals(LineToDelete)) continue;
+
+                writer.write(currentLine + System.getProperty("line.separator"));
+            }
+            writer.close();
+            reader.close();
+
+
+            inputFile.delete();
+            tempFile.renameTo(inputFile);
+
+
+
+            //Write the new credentials to the Original file
+            PrintWriter pw = new PrintWriter(new FileOutputStream("Order_Info.txt",true));
+            pw.println(changed_info);
+            pw.flush();
+            pw.close();
+
+
+        }
+    }
+
 }
 
