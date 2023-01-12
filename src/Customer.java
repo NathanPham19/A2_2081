@@ -24,7 +24,7 @@ public class Customer {
     public static String getNextUniqueID() {
         int id = Integer.parseInt(employeeID);
         Random rand = new Random();
-        id = rand.nextInt((99999 - 10000) + 1) + 10000;
+        id = rand.nextInt(999999);
         return Integer.toString(id);
 
     }
@@ -511,6 +511,10 @@ public class Customer {
         }
     }
 
+    //View membership status to apply discount
+    public void getMembershipLevel(){
+
+    }
 
 
     public String getUsername() {

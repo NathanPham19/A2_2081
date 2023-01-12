@@ -29,7 +29,7 @@ public class Admin {
     }
 
     public void login() throws FileNotFoundException {
-        Scanner FileScan = new Scanner(new File("Member_Login_Info.txt"));
+        Scanner FileScan = new Scanner(new File("Admin_Login.txt"));
         Scanner scan = new Scanner(System.in);
         boolean foundUser = false;
 
@@ -57,4 +57,65 @@ public class Admin {
             login();
         }
     }
+
+    public void removeCustomer() throws IOException {
+        Scanner scan = new Scanner(System.in);
+
+        displayFileContent();
+        System.out.println("Select the user you want to remove by copying and paste the line you want to remove: ");
+        System.out.println("List of members: ");
+        String LineToDelete =scan.nextLine();
+        File inputFile = new File("Customer_Info.txt");
+        File tempFile = new File("temp_file.txt");
+
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+        String currentLine;
+
+        while((currentLine = reader.readLine()) != null) {
+            // trim newline when comparing with lineToRemove
+            String trimmedLine = currentLine.trim();
+
+            if(trimmedLine.equals(LineToDelete)) continue;
+
+            writer.write(currentLine + System.getProperty("line.separator"));
+        }
+        writer.close();
+        reader.close();
+
+
+        inputFile.delete();
+        tempFile.renameTo(inputFile);
+
+        System.out.println("Line removed");
+        System.out.println("List of members after removing: ");
+        displayFileContent();
+
+    }
+
+    public void displayFileContent(){
+        try
+        {
+            File file=new File("Customer_Info.txt");    //creates a new file instance
+            FileReader fr=new FileReader(file);   //reads the file
+            BufferedReader br=new BufferedReader(fr);  //creates a buffering character input stream
+            StringBuffer sb=new StringBuffer();    //constructs a string buffer with no characters
+            String line;
+            while((line=br.readLine())!=null)
+            {
+                sb.append(line);      //appends line to string buffer
+                sb.append("\n");     //line feed
+            }
+            fr.close();    //closes the stream and release the resources
+
+            System.out.println(sb.toString());   //returns a string that textually represents the object
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }
+
