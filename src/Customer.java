@@ -511,11 +511,56 @@ public class Customer {
         }
     }
 
-    //View membership status to apply discount
-    public void getMembershipLevel(){
 
+    //View membership status to apply discount
+    public String getMembershipLevel() throws IOException {
+        File originalFile = new File("Customer_Info.txt");
+        BufferedReader br = new BufferedReader(new FileReader(originalFile));
+        StringBuilder sb = new StringBuilder();
+        String line = "";
+        String membership ="";
+
+        String User = getUsername();
+
+        while ((line = br.readLine()) != null) {
+            if (line.startsWith(User + ",")) {
+                String result = line;
+                String[] parts = result.split(",");
+                String user = parts[0];
+                String pass = parts[1];
+                String full_name = parts[2];
+                String email = parts[3];
+                String phone = parts[4];
+                String address = parts[5];
+                String cID = parts[6];
+                membership = parts[7];
+
+
+
+
+            }
+        }
+        return membership;
     }
 
+    // Chec
+    public double ApplyDiscount() throws IOException {
+        double SILVER_DISCOUNT = 0.05;
+        double GOLD_DISCOUNT = 0.1;
+        double PLATINUM_DISCOUNT = 0.15;
+
+        String membershipLevel = getMembershipLevel();
+
+        if (membershipLevel.equals("Silver")) {
+            return SILVER_DISCOUNT;
+        } else if (membershipLevel.equals("Gold")) {
+            return GOLD_DISCOUNT;
+        } else if (membershipLevel.equals("Platinum")) {
+            return PLATINUM_DISCOUNT;
+        } else {
+            return 0;
+        }
+    }
 
     public String getUsername() {
         return username;
