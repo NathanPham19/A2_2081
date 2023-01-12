@@ -61,11 +61,14 @@ public class Customer {
                 updateInfo(getUsername(),getPassword());
             case 3:
                 viewMembershipStatus(getUsername());
+            case 6:
+                CreateOrder();
             case 7:
                 System.out.println("Enter your orderID: ");
                 int Order_id = scan.nextInt();
-                viewOrder(Order_id);
-
+                TrackOrder(Order_id);
+            case 8:
+                viewOrderHistory();
         }
     }
 
@@ -602,7 +605,7 @@ public class Customer {
 
 
 
-    public void viewOrder(int ID) throws IOException {
+    public void TrackOrder(int ID) throws IOException {
 
         String CustomerID = getUsername();
         String orderID = String.valueOf(ID);
@@ -620,6 +623,22 @@ public class Customer {
             }
         }
     }
+
+    public void viewOrderHistory() throws IOException {
+        File originalFile = new File("Order_Info.txt");
+        BufferedReader br = new BufferedReader(new FileReader(originalFile));
+        StringBuilder sb = new StringBuilder();
+        String line = "";
+
+        while ((line = br.readLine()) != null){
+            if (line.startsWith(getCustomerID())){
+                System.out.println("CustomerID,OrderID,Date_Ordered,Order_Status");
+                System.out.println(line);
+                System.out.println();
+            }
+        }
+    }
+
 
     public String getCustomerID() throws IOException {
         File originalFile = new File("Customer_Info.txt");
