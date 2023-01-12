@@ -1,0 +1,5 @@
+CustomerID,OrderID,Date_Ordered,Order_Status
+
+4567,8912,12/01/2023,Delivered
+4567,8912,12/02/2023,Delivered
+4567,8912,12/03/2023,Delivered

@@ -117,5 +117,26 @@ public class Admin {
         }
     }
 
+    public void getOrderbyCustomerID() throws IOException {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter Customer's ID number: ");
+        int id = scan.nextInt();
+        String CustomerID = Integer.toString(id);
+
+
+        File originalFile = new File("Order_Info.txt");
+        BufferedReader br = new BufferedReader(new FileReader(originalFile));
+        StringBuilder sb = new StringBuilder();
+        String line = "";
+
+        while ((line = br.readLine()) != null){
+            if (line.startsWith(CustomerID)){
+                System.out.println("CustomerID,OrderID,Date_Ordered,Order_Status");
+                System.out.println(line);
+                System.out.println();
+            }
+        }
+    }
+
 }
 

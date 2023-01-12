@@ -1,11 +1,11 @@
 
 import javax.sound.sampled.Line;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Customer {
     private static final String CUSTOMER_FILE = "Customer_Info.txt";
@@ -18,16 +18,8 @@ public class Customer {
     private String email;
     private String address;
 
-    private static String employeeID = "0";
 
-    //Generate Unique Customer ID number
-    public static String getNextUniqueID() {
-        int id = Integer.parseInt(employeeID);
-        Random rand = new Random();
-        id = rand.nextInt(999999);
-        return Integer.toString(id);
 
-    }
 
     //Constructor without param
     public Customer() {
@@ -67,6 +59,12 @@ public class Customer {
                 viewInfo(getUsername());
             case 2:
                 updateInfo(getUsername(),getPassword());
+            case 3:
+                viewMembershipStatus(getUsername());
+            case 7:
+                System.out.println("Enter your orderID: ");
+                int Order_id = scan.nextInt();
+                viewOrder(Order_id);
 
         }
     }
@@ -110,6 +108,13 @@ public class Customer {
 
     // Register User
     public void registerUser() throws IOException {
+        int id;
+        Random rand = new Random();
+        id = rand.nextInt(999999);
+
+        String CustomerID = Integer.toString(id);
+
+
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Fill out info to register your account!");
@@ -147,7 +152,7 @@ public class Customer {
 
             // run PrintWriter method to create new account into a text file;
             PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Customer_Info.txt"),true));
-            pw.println(username + "," + password + "," + full_name + ","  + email + "," + phone + "," + address + ",C"+ getNextUniqueID() + ",member,0");
+            pw.println(username + "," + password + "," + full_name + ","  + email + "," + phone + "," + address + ","+ CustomerID + ",member,0");
             pw.flush();
             pw.close();
 
@@ -161,6 +166,7 @@ public class Customer {
             login();
 
         }
+
     }
 
     //View info of customer
@@ -534,16 +540,12 @@ public class Customer {
                 String address = parts[5];
                 String cID = parts[6];
                 membership = parts[7];
-
-
-
-
             }
         }
         return membership;
     }
 
-    // Chec
+    // Check for discount based on membership tier
     public double ApplyDiscount() throws IOException {
         double SILVER_DISCOUNT = 0.05;
         double GOLD_DISCOUNT = 0.1;
@@ -560,6 +562,89 @@ public class Customer {
         } else {
             return 0;
         }
+    }
+
+    public String DiscountAmount() throws IOException{
+        String membershipLevel = getMembershipLevel();
+
+        if (membershipLevel.equals("Silver")) {
+            return "5%";
+        } else if (membershipLevel.equals("Gold")) {
+            return "10%";
+        } else if (membershipLevel.equals("Platinum")) {
+            return "15%";
+        } else {
+            return "0";
+        }
+    }
+
+    public void CreateOrder() throws IOException {
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String CurrentDate = dateFormat.format(date);
+
+        int id;
+        Random rand = new Random();
+        id = rand.nextInt(999999);
+        String OrderID= Integer.toString(id);
+
+        System.out.println("Thank you ordering");
+        System.out.println("Your ORDED Number is: ID" + OrderID);
+        System.out.println("Your Discount for your Order is: "+ DiscountAmount());
+
+        PrintWriter pw = new PrintWriter(new FileOutputStream(new File("Order_Info.txt"),true));
+        pw.println(getCustomerID() + "," + getUsername()+ "," + CurrentDate+",Delivered");
+        pw.flush();
+        pw.close();
+
+
+    }
+
+
+
+    public void viewOrder(int ID) throws IOException {
+
+        String CustomerID = getUsername();
+        String orderID = String.valueOf(ID);
+
+        File originalFile = new File("Order_Info.txt");
+        BufferedReader br = new BufferedReader(new FileReader(originalFile));
+        StringBuilder sb = new StringBuilder();
+        String line = "";
+
+        while ((line = br.readLine()) != null){
+            if (line.startsWith(CustomerID+ ","+ orderID)){
+                System.out.println("CustomerID,OrderID,Date_Ordered,Order_Status");
+                System.out.println(line);
+                System.out.println();
+            }
+        }
+    }
+
+    public String getCustomerID() throws IOException {
+        File originalFile = new File("Customer_Info.txt");
+        BufferedReader br = new BufferedReader(new FileReader(originalFile));
+        StringBuilder sb = new StringBuilder();
+        String line ="";
+        String cID ="";
+
+        String User = getUsername();
+
+        while ((line = br.readLine()) != null) {
+            if (line.startsWith(User + ",")) {
+                String result = line;
+                String[] parts = result.split(",");
+                String user = parts[0];
+                String pass = parts[1];
+                String full_name = parts[2];
+                String email = parts[3];
+                String phone = parts[4];
+                String address = parts[5];
+                cID = parts[6];
+                String membership = parts[7];
+            }
+        }
+        return cID;
     }
 
     public String getUsername() {
@@ -601,6 +686,7 @@ public class Customer {
     public void setAddress(String address) {
         this.address = address;
     }
+
 
 
 
