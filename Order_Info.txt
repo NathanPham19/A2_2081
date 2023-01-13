@@ -1,7 +1,4 @@
 CustomerID,OrderID,Date_Ordered,Order_status
-
 4567,8912,12/01/2023,Delivered
 4567,2314,12/02/2023,Delivered
-4567,2314,12/03/2023,Delivered
-C70603,QuangHuy,12/01/2023,Delivered
-70603,QuangHuy,13/01/2023,Delivered
+
