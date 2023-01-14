@@ -36,7 +36,7 @@ public class Customer {
 
 
 
-    //List all the things the users can do
+    //List all the things the users can do and let the user choose what to do
     public void CustomerAction() throws IOException {
         Scanner scan = new Scanner(System.in);
         System.out.println("Done. What do you want to do now, Customer?");
@@ -55,9 +55,9 @@ public class Customer {
             case 1:
                 viewInfo(getUsername());
             case 2:
-                UpdateInfoCustomer(getUsername());
+                UpdateInfoCustomer();
             case 3:
-                viewMembershipStatus(getUsername());
+                viewMembershipStatus();
             case 6:
                 CreateOrder();
             case 7:
@@ -82,7 +82,7 @@ public class Customer {
         while (FileScan.hasNextLine()){
             String input = FileScan.nextLine();
             String user = input.substring(0, input.indexOf(' '));
-            String pass = input.substring(input.indexOf(' ')+1 , input.length());
+            String pass = input.substring(input.indexOf(' ')+1, input.length());
 
 
             if(user.equals(username) && (pass.equals(password)) ){
@@ -186,11 +186,11 @@ public class Customer {
 
 
 
-    public void UpdateInfoCustomer(String User) throws IOException {
+    public void UpdateInfoCustomer() throws IOException {
         // Extract and Update the String
         //Extract the Line and Ask the User which line to edit
         Scanner scan = new Scanner(System.in);
-
+        String User = getUsername();
         //Extract the line the program want to edit
         File originalFile = new File("Customer_Info.txt");
         BufferedReader br = new BufferedReader(new FileReader(originalFile));
@@ -253,7 +253,7 @@ public class Customer {
                     address = scan.nextLine();
                 }
 
-                new_credentials = user +","+pass;
+                new_credentials = user +" "+pass;
                 changed_acc = user +","+pass+","+full_name+","+email+","+phone+","+address+","+cID+","+membership+","+amount_spent;
                 System.out.println("Previous Info: "+ LineToDelete);
                 System.out.println("Here's your updated information:");
@@ -312,8 +312,9 @@ public class Customer {
     }
 
     //View Membership status
-    public void viewMembershipStatus(String User) throws IOException {
+    public void viewMembershipStatus() throws IOException {
         File originalFile = new File("Customer_Info.txt");
+        String User = getUsername();
         BufferedReader br = new BufferedReader(new FileReader(originalFile));
         StringBuilder sb = new StringBuilder();
         String line;
@@ -526,8 +527,5 @@ public class Customer {
     public void setAddress(String address) {
         this.address = address;
     }
-
-
-
 
 }
