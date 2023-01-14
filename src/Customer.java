@@ -1,4 +1,17 @@
-
+/*
+  RMIT University Vietnam
+  Course: COSC2081 Programming 1
+  Semester: 2022C
+  Assessment: Assignment 3
+  Author:
+  Pham Quang Huy
+  Bui Minh Khoi
+  Tran Vinh Tuong
+  ID:  (3940676)
+       (3929015)
+       (3878734)
+  Acknowledgement: Acknowledge the resources that you use here.
+*/
 import javax.sound.sampled.Line;
 import java.io.*;
 import java.text.DateFormat;
