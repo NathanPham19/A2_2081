@@ -1,0 +1,5 @@
+123, Apple, 500, Laptop
+789, Iphone , 350, SmartPhone
+567, Lenovo , 450, Laptop
+789, SamSung , 300, SmartPhone
+321, Ipad, 350, Tablet
