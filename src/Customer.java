@@ -94,8 +94,8 @@ public class Customer {
         String password = scan.nextLine();
         while (FileScan.hasNextLine()){
             String input = FileScan.nextLine();
-            String user = input.substring(0, input.indexOf(' '));
-            String pass = input.substring(input.indexOf(' ')+1, input.length());
+            String user = input.substring(0, input.indexOf(','));
+            String pass = input.substring(input.indexOf(',')+1, input.length());
 
 
             if(user.equals(username) && (pass.equals(password)) ){
