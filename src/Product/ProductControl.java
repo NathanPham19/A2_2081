@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+//Resources use grom Lecture and Turorial slide and Stackoverflow
 public class ProductControl {
     Management pm = new Management();
     Scanner sc = new Scanner(System.in);
