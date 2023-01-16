@@ -169,7 +169,7 @@ public class Customer {
 
 
             PrintWriter pw1 = new PrintWriter(new FileOutputStream("Member_Login_Info.txt",true));
-            pw1.println(username + " " + password);
+            pw1.println(username + "," + password);
             pw1.flush();
             pw1.close();
 
