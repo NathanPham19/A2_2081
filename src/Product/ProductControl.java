@@ -78,7 +78,7 @@ public class ProductControl {
             BufferedWriter bw1 = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw1))
         {
-            out.println(id + "," + name + "," + price + "," + category);
+            out.println(id + "," + name + "," + category + "," + price);
             out.close();
 
             bw1.close();
