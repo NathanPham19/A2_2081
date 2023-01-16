@@ -1,5 +1,6 @@
 package Product;
 
+//Resources use grom Lecture and Turorial slide and Stackoverflow
 // Abstract class Product that defines properties common to all products.
 public class Product {
     private int ProductId;
