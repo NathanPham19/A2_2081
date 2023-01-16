@@ -2,7 +2,7 @@ package Product;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
+//Resources use grom Lecture and Turorial slide and Stackoverflow
 public class Management {
     private List<Product> ListOfProduct;
 
